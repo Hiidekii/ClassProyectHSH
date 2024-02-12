@@ -29,7 +29,11 @@ const LoginPage = () => {
         if (listaFiltrada.length > 0) {
             //Hay por lo menos un usuario
             console.log("Login Correcto")
-            navigate("/main")
+            navigate("/main", {
+                state: {
+                    username: username
+                }
+            })
         } else {
             console.log("Login Incorrecto")
             setLoginIncorrecto(true)
