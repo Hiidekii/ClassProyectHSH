@@ -2,12 +2,16 @@ import { Alert, Box, Button, Container, TextField } from "@mui/material"
 import CheckIcon from "@mui/icons-material/Check"
 import { useState } from "react"
 import dataUsuarios from "../../data/usuarios"
+import { useNavigate } from "react-router-dom"
 
 
 const LoginPage = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginIncorrecto, setLoginIncorrecto] = useState(false)
+
+    //Creamos objeto para navegacion programatica
+    const navigate = useNavigate()
 
     const usernameOnChangeHandler = (event) => {
         setUsername(event.target.value)
@@ -25,6 +29,7 @@ const LoginPage = () => {
         if (listaFiltrada.length > 0) {
             //Hay por lo menos un usuario
             console.log("Login Correcto")
+            navigate("/main")
         } else {
             console.log("Login Incorrecto")
             setLoginIncorrecto(true)
