@@ -36,6 +36,7 @@ const LoginPage = () => {
             //Hay por lo menos un usuario
             console.log("Login Correcto")
 
+            //Almacenando en localStorage
             localStorage.setItem("USERNAME", username)
 
             navigate("/main", {

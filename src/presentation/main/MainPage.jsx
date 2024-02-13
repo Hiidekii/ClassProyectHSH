@@ -11,7 +11,7 @@ const MainPage = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
-    const location = useLocation()
+    //const location = useLocation()
 
     const obtenerEquiposHTTP = async () => {
         // const promesa = fetch("http://localhost:3000/equipos.json")
@@ -30,12 +30,14 @@ const MainPage = () => {
         //     console.log(error)
         // }))                                                            Mejor hacerlo con async await mas limpio
 
-        const response = await fetch("http://localhost:3000/equipos.json")
+        const response = await fetch("http://localhost:3000/equipos.json") //pregunta? cosultar solo la primera vez y luego almacenar en cache
         const data = await response.json()
+
+        const listaEquiposStr = JSON.stringify(data) //convertismos de js a string
+        localStorage.setItem("EQUIPOS", listaEquiposStr) //guardamos en el local storage
+
         setDataEquipos(data)
     }
-
-    obtenerEquiposHTTP()
 
     const onMenuIconClick = () => {
         setDrawerOpen(true)
@@ -54,7 +56,14 @@ const MainPage = () => {
     }
 
     useEffect(() => { //para no entrar en bucle cada vez q se cambie el estado de una variable
-        obtenerEquiposHTTP()
+        const equiposStr = localStorage.getItem("EQUIPOS") //validamos que solo se llama la primera vez
+        if (equiposStr == null) {
+            obtenerEquiposHTTP()
+        } else {
+            const equipos = JSON.parse(equiposStr) //parseamos de string a lista objetos js
+            setDataEquipos(equipos)
+        }
+
     }, [])
 
     return <Box>
@@ -71,7 +80,7 @@ const MainPage = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {`Equipos (${location.state.username})`}
+                    {`Equipos (${localStorage.getItem("USERNAME")})`}
                 </Typography>
 
             </Toolbar>
