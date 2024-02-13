@@ -100,7 +100,7 @@ const MainPage = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {`Equipos (${localStorage.getItem("USERNAME")})`}
+                    {`Equipos (${sessionStorage.getItem("USERNAME")})`}
                 </Typography>
 
             </Toolbar>
