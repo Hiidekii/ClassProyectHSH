@@ -8,13 +8,13 @@ const LoginPage = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginIncorrecto, setLoginIncorrecto] = useState(false)
-    const [dataUsuarios, setDataUsuarios] = useState([])
+    // const [dataUsuarios, setDataUsuarios] = useState([])
 
-    const obtenerUsuariosHTTP = async () => {
-        const response = await fetch("http://localhost:3000/usuarios.json")
-        const data = await response.json()
-        setDataUsuarios(data)
-    }
+    // const obtenerUsuariosHTTP = async () => {
+    //     const response = await fetch("http://localhost:3000/usuarios.json")
+    //     const data = await response.json()
+    //     setDataUsuarios(data)
+    // }
 
     //Creamos objeto para navegacion programatica
     const navigate = useNavigate()
@@ -27,15 +27,33 @@ const LoginPage = () => {
         setPassword(event.target.value)
     }
 
-    const loginOnClick = () => {
-        const listaFiltrada = dataUsuarios.filter((elem) => {
-            return elem.username === username && elem.password === password
-        })
+    const loginOnClick = async () => {
+        // const listaFiltrada = dataUsuarios.filter((elem) => {
+        //     return elem.username === username && elem.password === password
+        // })
 
-        if (listaFiltrada.length > 0) {
-            //Hay por lo menos un usuario
-            console.log("Login Correcto")
+        // if (listaFiltrada.length > 0) {
+        //     //Hay por lo menos un usuario
+        //     console.log("Login Correcto")
 
+        //     //Almacenando en localStorage
+        //     sessionStorage.setItem("USERNAME", username)
+
+        //     navigate("/main", {
+        //         state: {
+        //             username: username
+        //         }
+        //     })
+
+        // } else {
+        //     console.log("Login Incorrecto")
+        //     setLoginIncorrecto(true)
+        // }
+        const response = await fetch(`http://localhost:8000/proyectos/login/${username}/${password}`)
+        const data = await response.json()
+
+        if (data.msg === "") {
+            //Login correcto
             //Almacenando en localStorage
             sessionStorage.setItem("USERNAME", username)
 
@@ -44,9 +62,8 @@ const LoginPage = () => {
                     username: username
                 }
             })
-
         } else {
-            console.log("Login Incorrecto")
+            //Login Incorrecto
             setLoginIncorrecto(true)
         }
     }
@@ -57,7 +74,6 @@ const LoginPage = () => {
             navigate("/main")
             return
         }
-        obtenerUsuariosHTTP()
     }, [])
 
     return <Container maxWidth="sm">
