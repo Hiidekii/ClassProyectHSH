@@ -1,34 +1,34 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button } from "@mui/material"
 import { Container } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GrillaEquipos from "./components/GrillaEquipos";
-import dataEquipos from "../../data/equipos"
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
 
-const obtenerEquiposHTTP = () => {
-    // const promesa = fetch("http://localhost:3000/equipos.json")
-    // const promesaJS = promesa.then((response) => {
-    //     return response.json()
-    // })
-    // promesaJS.then((data) => {
-    //     console.log(data)
-    // })                                                             Paso por paso y directo
-
-    fetch("http://localhost:3000/equipos.json").then((response) => {
-        return response.json()
-    }).then((data) => {
-        console.log(data)
-    }).catch((error => {
-        console.log(error)
-    }))
-}
-
 const MainPage = () => {
-    obtenerEquiposHTTP()
-
+    const [dataEquipos, setDataEquipos] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+
+    const obtenerEquiposHTTP = () => {
+        // const promesa = fetch("http://localhost:3000/equipos.json")
+        // const promesaJS = promesa.then((response) => {
+        //     return response.json()
+        // })
+        // promesaJS.then((data) => {
+        //     console.log(data)
+        // })                                                             Paso por paso y directo
+
+        fetch("http://localhost:3000/equipos.json").then((response) => {
+            return response.json()
+        }).then((data) => {
+            setDataEquipos(data)
+        }).catch((error => {
+            console.log(error)
+        }))
+    }
+
+    obtenerEquiposHTTP()
 
     const onMenuIconClick = () => {
         setDrawerOpen(true)
@@ -45,6 +45,10 @@ const MainPage = () => {
     const onModalClose = () => {
         setModalOpen(false)
     }
+
+    useEffect(() => { //para no entrar en bucle cada vez q se cambie el estado de una variable
+        obtenerEquiposHTTP()
+    }, [])
 
     return <Box>
         <AppBar position="static">
