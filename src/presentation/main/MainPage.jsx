@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button, MenuList, MenuItem, Divider, TextField } from "@mui/material"
+import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button, MenuList, MenuItem, Divider, TextField, Select, InputLabel } from "@mui/material"
 import { Container } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ const MainPage = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
     const [filtro, setFiltro] = useState("")
+    const [filtroAnho, setFiltroAnho] = useState("-")
 
     const navigate = useNavigate()
 
@@ -36,7 +37,7 @@ const MainPage = () => {
         // }))                                                            Mejor hacerlo con async await mas limpio
 
         const response = await fetch(
-            `http://localhost:8000/proyectos/ver-equipos?nombre=${filtro}`
+            `http://localhost:8000/proyectos/ver-equipos?nombre=${filtro}&anho=${filtroAnho}`
         ) //pregunta? cosultar solo la primera vez y luego almacenar en cache
         const data = await response.json()
 
@@ -84,7 +85,7 @@ const MainPage = () => {
 
     useEffect(() => {
         obtenerEquiposHTTP()
-    }, [filtro])
+    }, [filtro, filtroAnho])
 
     return <Box>
         <AppBar position="static">
@@ -131,11 +132,18 @@ const MainPage = () => {
             </Button>
             <TextField type="text"
                 placeholder="Filtro"
-                sx={{ mb: 2, ml: 2 }}
+                sx={{ mb: 2, ml: 2, mr: 2 }}
                 value={filtro}
                 onChange={(event) => {
                     setFiltro(event.target.value)
                 }} />
+            <Select label={"Año"}
+                value={filtroAnho}
+                onChange={(event) => { setFiltroAnho(event.target.value) }}>
+                <MenuItem value={"-"}>Todos</MenuItem>
+                <MenuItem value={"2023"}>2023</MenuItem>
+                <MenuItem value={"2024"}>2024</MenuItem>
+            </Select>
             <GrillaEquipos listaEquipos={dataEquipos} />
         </Container>
         <ModalFormularioEquipo
