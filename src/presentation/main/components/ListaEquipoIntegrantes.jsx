@@ -5,7 +5,7 @@ const ListaEquipoIntegrantes = (props) => {
     return <List>
         {
             props.integrantes.map((elem) => {
-                return <ListItem>
+                return <ListItem key={elem.codigo}>
                     <ListItemIcon>
                         <StarIcon />
                     </ListItemIcon>

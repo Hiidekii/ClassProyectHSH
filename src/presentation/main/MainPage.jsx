@@ -6,7 +6,27 @@ import GrillaEquipos from "./components/GrillaEquipos";
 import dataEquipos from "../../data/equipos"
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
 
+const obtenerEquiposHTTP = () => {
+    // const promesa = fetch("http://localhost:3000/equipos.json")
+    // const promesaJS = promesa.then((response) => {
+    //     return response.json()
+    // })
+    // promesaJS.then((data) => {
+    //     console.log(data)
+    // })                                                             Paso por paso y directo
+
+    fetch("http://localhost:3000/equipos.json").then((response) => {
+        return response.json()
+    }).then((data) => {
+        console.log(data)
+    }).catch((error => {
+        console.log(error)
+    }))
+}
+
 const MainPage = () => {
+    obtenerEquiposHTTP()
+
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -50,10 +70,10 @@ const MainPage = () => {
             onClose={onMenuCLose}
             open={drawerOpen}>
             <List>
-                <ListItem>
+                <ListItem key={"menu1"}>
                     <ListItemText primary={"Menu 1"} />
                 </ListItem>
-                <ListItem>
+                <ListItem key={"menu2"}>
                     <ListItemText primary={"Menu 1"} />
                 </ListItem>
             </List>
@@ -69,7 +89,7 @@ const MainPage = () => {
         <ModalFormularioEquipo
             modalOpen={modalOpen}
             onModalClose={onModalClose} />
-    </Box>
+    </Box >
 }
 
 export default MainPage

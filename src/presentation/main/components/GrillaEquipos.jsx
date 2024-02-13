@@ -5,7 +5,7 @@ const GrillaEquipos = (props) => {
     return <Grid container spacing={2}>
         {
             props.listaEquipos.map((equipo) => {
-                return <Grid xs={4}>
+                return <Grid xs={4} key={equipo.nombre}>
                     <CardEquipo nombreEquipo={equipo.nombre}
                         listaIntegrantes={equipo.integrantes} />
                 </Grid>
