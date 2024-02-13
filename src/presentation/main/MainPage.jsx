@@ -4,13 +4,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from "react";
 import GrillaEquipos from "./components/GrillaEquipos";
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
+import { useLocation } from "react-router-dom";
 
 const MainPage = () => {
     const [dataEquipos, setDataEquipos] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
-    const obtenerEquiposHTTP = () => {
+    const location = useLocation()
+
+    const obtenerEquiposHTTP = async () => {
         // const promesa = fetch("http://localhost:3000/equipos.json")
         // const promesaJS = promesa.then((response) => {
         //     return response.json()
@@ -19,13 +22,17 @@ const MainPage = () => {
         //     console.log(data)
         // })                                                             Paso por paso y directo
 
-        fetch("http://localhost:3000/equipos.json").then((response) => {
-            return response.json()
-        }).then((data) => {
-            setDataEquipos(data)
-        }).catch((error => {
-            console.log(error)
-        }))
+        // fetch("http://localhost:3000/equipos.json").then((response) => {
+        //     return response.json()
+        // }).then((data) => {
+        //     setDataEquipos(data)
+        // }).catch((error => {
+        //     console.log(error)
+        // }))                                                            Mejor hacerlo con async await mas limpio
+
+        const response = await fetch("http://localhost:3000/equipos.json")
+        const data = await response.json()
+        setDataEquipos(data)
     }
 
     obtenerEquiposHTTP()
@@ -64,7 +71,7 @@ const MainPage = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Equipos
+                    {`Equipos (${location.state.username})`}
                 </Typography>
 
             </Toolbar>
