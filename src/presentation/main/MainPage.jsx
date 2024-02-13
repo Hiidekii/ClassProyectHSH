@@ -4,12 +4,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from "react";
 import GrillaEquipos from "./components/GrillaEquipos";
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
+import { useNavigate } from "react-router-dom";
 //import { useLocation } from "react-router-dom";
 
 const MainPage = () => {
     const [dataEquipos, setDataEquipos] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+
+    const navigate = useNavigate()
 
     //const location = useLocation()
 
@@ -34,7 +37,7 @@ const MainPage = () => {
         const data = await response.json()
 
         const listaEquiposStr = JSON.stringify(data) //convertismos de js a string
-        localStorage.setItem("EQUIPOS", listaEquiposStr) //guardamos en el local storage
+        sessionStorage.setItem("EQUIPOS", listaEquiposStr) //guardamos en el local storage
 
         setDataEquipos(data)
     }
@@ -56,7 +59,11 @@ const MainPage = () => {
     }
 
     useEffect(() => { //para no entrar en bucle cada vez q se cambie el estado de una variable
-        const equiposStr = localStorage.getItem("EQUIPOS") //validamos que solo se llama la primera vez
+        if (sessionStorage.getItem("USERNAME") == null) {
+            navigate("/")
+        }
+
+        const equiposStr = sessionStorage.getItem("EQUIPOS") //validamos que solo se llama la primera vez
         if (equiposStr == null) {
             obtenerEquiposHTTP()
         } else {

@@ -37,13 +37,14 @@ const LoginPage = () => {
             console.log("Login Correcto")
 
             //Almacenando en localStorage
-            localStorage.setItem("USERNAME", username)
+            sessionStorage.setItem("USERNAME", username)
 
             navigate("/main", {
                 state: {
                     username: username
                 }
             })
+
         } else {
             console.log("Login Incorrecto")
             setLoginIncorrecto(true)
@@ -51,6 +52,11 @@ const LoginPage = () => {
     }
 
     useEffect(() => {
+        //Valido si esta loggeado, caso afirmativo, redirecciono a MainPage
+        if (sessionStorage.getItem("USERNAME") !== null) {
+            navigate("/main")
+            return
+        }
         obtenerUsuariosHTTP()
     }, [])
 
