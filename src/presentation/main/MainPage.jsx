@@ -1,16 +1,18 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button, MenuList, MenuItem, Divider } from "@mui/material"
+import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button, MenuList, MenuItem, Divider, TextField } from "@mui/material"
 import { Container } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from "react";
 import GrillaEquipos from "./components/GrillaEquipos";
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
 import { useNavigate } from "react-router-dom";
+import { SentimentSatisfiedAltRounded } from "@mui/icons-material";
 //import { useLocation } from "react-router-dom";
 
 const MainPage = () => {
     const [dataEquipos, setDataEquipos] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+    const [filtro, setFiltro] = useState("")
 
     const navigate = useNavigate()
 
@@ -33,7 +35,9 @@ const MainPage = () => {
         //     console.log(error)
         // }))                                                            Mejor hacerlo con async await mas limpio
 
-        const response = await fetch("http://localhost:3000/equipos.json") //pregunta? cosultar solo la primera vez y luego almacenar en cache
+        const response = await fetch(
+            `http://localhost:8000/proyectos/ver-equipos?nombre=${filtro}`
+        ) //pregunta? cosultar solo la primera vez y luego almacenar en cache
         const data = await response.json()
 
         const listaEquiposStr = JSON.stringify(data) //convertismos de js a string
@@ -78,6 +82,10 @@ const MainPage = () => {
 
     }, [])
 
+    useEffect(() => {
+        obtenerEquiposHTTP()
+    }, [filtro])
+
     return <Box>
         <AppBar position="static">
             <Toolbar>
@@ -121,6 +129,13 @@ const MainPage = () => {
                 onClick={onModalOpenClick}>
                 +
             </Button>
+            <TextField type="text"
+                placeholder="Filtro"
+                sx={{ mb: 2, ml: 2 }}
+                value={filtro}
+                onChange={(event) => {
+                    setFiltro(event.target.value)
+                }} />
             <GrillaEquipos listaEquipos={dataEquipos} />
         </Container>
         <ModalFormularioEquipo
