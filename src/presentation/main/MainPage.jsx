@@ -1,12 +1,14 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button, MenuList, MenuItem, Divider, TextField, Select, InputLabel, ListItemIcon } from "@mui/material"
-import { CardContent, Grid } from "@mui/material"
-import { Container, Card } from "@mui/material"
+import { Box, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, Button } from "@mui/material"
+import { Container } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
-import StarIcon from '@mui/icons-material/Star';
+import GrillaEquipos from "./components/GrillaEquipos";
+import dataEquipos from "../../data/equipos"
+import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
 
 const MainPage = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
 
     const onMenuIconClick = () => {
         setDrawerOpen(true)
@@ -14,6 +16,14 @@ const MainPage = () => {
 
     const onMenuCLose = () => {
         setDrawerOpen(false)
+    }
+
+    const onModalOpenClick = () => {
+        setModalOpen(true)
+    }
+
+    const onModalClose = () => {
+        setModalOpen(false)
     }
 
     return <Box>
@@ -49,101 +59,16 @@ const MainPage = () => {
             </List>
         </Drawer>
         <Container sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-                <Grid xs={4}>
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                Equipo 1
-                            </Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Cristiano Ronaldo"} />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Lionel Messi"} />
-                                </ListItem>
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid xs={4}>
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                Equipo 2
-                            </Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Cristiano Ronaldo"} />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Lionel Messi"} />
-                                </ListItem>
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid xs={4}>
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                Equipo 3
-                            </Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Cristiano Ronaldo"} />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Lionel Messi"} />
-                                </ListItem>
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid xs={4}>
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                Equipo 4
-                            </Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Cristiano Ronaldo"} />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <StarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Lionel Messi"} />
-                                </ListItem>
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+            <Button variant="contained"
+                sx={{ mb: 2 }}
+                onClick={onModalOpenClick}>
+                +
+            </Button>
+            <GrillaEquipos listaEquipos={dataEquipos} />
         </Container>
+        <ModalFormularioEquipo
+            modalOpen={modalOpen}
+            onModalClose={onModalClose} />
     </Box>
 }
 
