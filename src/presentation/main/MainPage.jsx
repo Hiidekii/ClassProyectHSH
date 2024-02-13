@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from "react";
 import GrillaEquipos from "./components/GrillaEquipos";
 import ModalFormularioEquipo from "./components/ModalFormularioEquipo";
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 
 const MainPage = () => {
     const [dataEquipos, setDataEquipos] = useState([])

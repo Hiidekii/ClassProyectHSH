@@ -29,7 +29,7 @@ const LoginPage = () => {
 
     const loginOnClick = () => {
         const listaFiltrada = dataUsuarios.filter((elem) => {
-            return elem.username == username && elem.password == password
+            return elem.username === username && elem.password === password
         })
 
         if (listaFiltrada.length > 0) {
